@@ -1,26 +1,163 @@
 @import "tailwindcss";
 
 :root {
+  --font-sans: var(--font-montserrat), ui-sans-serif, system-ui;
   --background: #ffffff;
-  --foreground: #171717;
+  --foreground: #0a0a0a;
+  --card: #f5f5f5;
+  --card-foreground: #0a0a0a;
+  --border: #d4d4d4;
 }
 
 @theme inline {
   --color-background: var(--background);
   --color-foreground: var(--foreground);
+  --color-card: var(--card);
+  --color-card-foreground: var(--card-foreground);
+  --color-border: var(--border);
   --font-sans: var(--font-geist-sans);
   --font-mono: var(--font-geist-mono);
-}
 
-@media (prefers-color-scheme: dark) {
-  :root {
-    --background: #0a0a0a;
-    --foreground: #ededed;
-  }
+  /* Light-first remap so existing dark classes render in white UI */
+  --color-slate-950: #ffffff;
+  --color-slate-900: #f8fafc;
+  --color-slate-800: #f1f5f9;
+  --color-slate-700: #e2e8f0;
+  --color-slate-600: #cbd5e1;
+  --color-slate-500: #64748b;
+  --color-slate-400: #475569;
+  --color-slate-300: #334155;
+  --color-slate-200: #1f2937;
+  --color-slate-100: #111827;
+  --color-slate-50: #020617;
 }
 
 body {
-  background: var(--background);
+  background-color: var(--background);
   color: var(--foreground);
-  font-family: Arial, Helvetica, sans-serif;
+  font-family: var(--font-sans);
+}
+
+/* Force light UI even if legacy dark classes are used, except for hero and booking page */
+[class*="bg-slate-9"]:not(.hero-section):not(.booking-page),
+[class*="bg-slate-8"]:not(.hero-section):not(.booking-page),
+[class*="bg-slate-950"]:not(.hero-section):not(.booking-page),
+[class*="bg-[#161718]"]:not(.hero-section):not(.booking-page),
+[class*="bg-[#1c1d1f]"]:not(.hero-section):not(.booking-page),
+[class*="from-[#161718]"]:not(.hero-section):not(.booking-page),
+[class*="to-[#1f2123]"]:not(.hero-section):not(.booking-page) {
+  background-color: #ffffff !important;
+  background-image: none !important;
+}
+
+.text-slate-400:not(.booking-page .text-slate-400),
+.text-slate-500:not(.booking-page .text-slate-500) {
+  color: #0f172a !important;
+}
+
+[class*="bg-indigo"][class*="text-white"],
+[class*="bg-emerald"][class*="text-white"],
+[class*="bg-red"][class*="text-white"],
+[class*="bg-amber"][class*="text-white"],
+[class*="bg-blue"][class*="text-white"],
+[class*="bg-purple"][class*="text-white"] {
+  color: #ffffff !important;
+}
+
+/* Hero and Booking sections: allow truly white text and dark backgrounds */
+.hero-header [class*="text-white"],
+.hero-section [class*="text-white"],
+.booking-page [class*="text-white"],
+.booking-page h2,
+.booking-page h4 {
+  color: #ffffff !important;
+}
+
+.hero-header [class*="drop-shadow"] {
+  filter: drop-shadow(0 2px 8px rgba(0, 0, 0, 0.5));
+}
+
+.hero-section [class*="bg-black"] {
+  background-color: unset !important;
+}
+
+.hero-section .hero-overlay-dark {
+  background-color: rgba(0, 0, 0, 0.65) !important;
+}
+
+.hero-section .hero-gradient-bottom {
+  background-image: linear-gradient(to top, #ffffff, transparent) !important;
+  background-color: transparent !important;
+}
+
+[class*="border-white/"]:not(.footer-dark [class*="border-white/"]):not(.booking-page [class*="border-white/"]),
+[class*="border-white\\/"]:not(.footer-dark [class*="border-white\\/"]):not(.booking-page [class*="border-white\\/"]) {
+  border-color: #d1d5db !important;
+}
+
+/* Footer override: keep dark footer with bright text */
+.footer-dark {
+  background-color: #000000 !important;
+}
+
+.footer-dark,
+.footer-dark [class*="text-"],
+.footer-dark a,
+.footer-dark p,
+.footer-dark li,
+.footer-dark span {
+  color: #f8fafc !important;
+}
+
+.footer-dark [class*="bg-white/"] {
+  background-color: rgba(255, 255, 255, 0.1) !important;
+}
+
+.footer-dark .text-indigo-400 {
+  color: #818cf8 !important;
+}
+
+.footer-dark .text-red-500 {
+  color: #ef4444 !important;
+}
+
+.footer-dark [class*="border-white/"],
+.footer-dark [class*="border-white\\/"] {
+  border-color: rgba(255, 255, 255, 0.25) !important;
+}
+
+body .force-white,
+.booking-page .force-white {
+  color: #ffffff !important;
+}
+
+::selection {
+  background-color: #4f46e5; /* Indigo-600 */
+  color: #000000 !important;
+}
+
+/* Ensure selected text is visible even if the underlying text was white */
+[class*="text-white"]::selection {
+  color: #000000 !important;
+}
+
+@keyframes reveal {
+  from {
+    opacity: 0;
+    transform: translateY(30px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+.reveal {
+  animation: reveal 0.8s cubic-bezier(0.2, 0.8, 0.2, 1) forwards;
+}
+
+.reveal-delayed {
+  animation: reveal 1s cubic-bezier(0.2, 0.8, 0.2, 1) forwards;
+  animation-delay: 0.2s;
+  opacity: 0;
 }
