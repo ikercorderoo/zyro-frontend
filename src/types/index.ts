@@ -67,12 +67,19 @@ export interface Business {
     name: string;
     slug: string;
     description?: string;
+    imageUrl?: string;
+    bannerUrl?: string;
+    address?: string;
+    rating?: number;
+    reviewsCount?: number;
+    category?: { id: string; name: string };
     minLeadTime: number;
     maxBookingWindow: number;
     cancellationWindow: number;
     bufferTime: number;
     slotInterval: number;
     schedules?: Schedule[];
+    services?: Service[];
 }
 
 export interface Schedule {
