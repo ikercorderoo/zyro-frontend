@@ -47,12 +47,15 @@ export default function ImageUpload({ value, onChange, label, required }: ImageU
             }
             
             const data = await response.json();
-            onChange(data.url);
-            setPreview(data.url);
+            
+            // Si la URL ya es completa (como la de Uploadcare), la usamos directamente
+            const finalUrl = data.url;
+            onChange(finalUrl);
+            setPreview(finalUrl);
         } catch (err: any) {
-            console.error(err);
+            console.error('Error en la subida:', err);
             alert(`Error: ${err.message || 'No se pudo subir la imagen'}`);
-            setPreview(value); // Revert to previous value
+            setPreview(value); // Revertir al valor anterior
         } finally {
             setUploading(false);
         }
